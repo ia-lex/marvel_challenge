@@ -1,8 +1,9 @@
-var path = require('path')
-var webpack = require('webpack')
+var path = require('path');
+var webpack = require('webpack');
+var extractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  entry: './src/main.js',
+  entry: './src/js/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
@@ -14,7 +15,10 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
+          extractCSS: true,
           loaders: {
+            scss: 'vue-style-loader!css-loader!sass-loader', // <style lang="scss">
+            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax' // <style lang="sass">
           }
           // other vue-loader options go here
         }
@@ -33,6 +37,9 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new extractTextPlugin("./src/css/style.css")
+  ],
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
