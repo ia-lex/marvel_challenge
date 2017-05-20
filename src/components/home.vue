@@ -4,17 +4,18 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <input type="text" class="form-control" v-model="searchTerm" placeholder="search character ...">
+                    <button type="button" class="form-control" @click="getMarvelComics()">buscar</button>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-9">
                 <h5>Characters</h5>
-                <div class="col-md-6" v-for="comic in comics">
-                    <comic-form
+                <div class="col-md-6" v-for="comic in comicsCharacters">
+                    <character-form
                         :comicCharacter="comic"
                     >                    
-                    </comic-form>
+                    </character-form>
                 </div>
             </div>
             <div class="col-md-3">
@@ -29,7 +30,7 @@
             <div class="container-fluid">
                 <vue-paginator
                     :pagination="pagination"
-                    @updatePage="getMarvelComics(pagination.current_page - 1)"
+                    @updatePage="getMarvelComics(pagination.current_page)"
                 >                    
                 </vue-paginator>
             </div>
@@ -39,7 +40,7 @@
 <script>
 import helper from '../js/helper';
 import vuePaginator from './paginator.vue';
-import comicForm from './comicForm.vue';
+import characterForm from './characterForm.vue';
 
 var _ = require('lodash');
 
@@ -47,56 +48,63 @@ export default {
     mixins: [helper],
     components: {
         'vue-paginator': vuePaginator,
-        'comic-form': comicForm
+        'character-form': characterForm
     },
     data() {
         return {
             searchTerm: '',
-            comics: [],
+            comicsCharacters: [],
             characterUrl: 'v1/public/characters',
-            characterComicsUrl: '/v1/public/characters/{characterId}/comics',
+            defaultCharName: 'all',
             pagination: {
                 total: 0,
                 itemsPerPage: 10,
                 current_page: 1             
-            }            
-        }
-    },
-    watch: {
-        searchTerm: function() {
-            this.$router.push({name: 'main'});
-            this.getMarvelComics();
+            }           
         }
     },
     mounted() {
-        this.getMarvelComics();
+        this.checkStorage();
     },
     methods: {
-        getMarvelComics: _.debounce(function(page) {
+        getMarvelComics(page = 1) {
             let apiUrl = this.api(this.characterUrl);
+            let charName = this.defaultCharName;
             let query = {
                 params: {
                     apikey: this.apikey,
                     limit: this.pagination.itemsPerPage,
+                    offset: (page * this.pagination.itemsPerPage) - this.pagination.itemsPerPage
                 }                    
-            }
+            };
+            
             if (this.searchTerm) {                
                 query.params.nameStartsWith = this.searchTerm
+                charName = this.searchTerm;
             }
-            if (page >= 0) {
-                console.log("The current page is "+page);
-                query.params.offset = page * this.pagination.itemsPerPage;
-                
-                this.$router.push({name: 'characters-all', params: { pageNumber: page + 1}});
-            }
+            this.$router.push({name: 'characters', params: { name: charName, pageNumber: page}});
+
             this.$http.get(apiUrl, query)
             .then(({data}) => {
                 this.pagination.total = data.data.total;
-                this.comics = data.data.results;
-                console.log(this.comics);
+                this.comicsCharacters = data.data.results;
             }, (error) => {
+                console.log(error);
             });
-        }, 1000),
+        },
+
+        checkStorage() {
+            let params = localStorage.getItem('backRouteParams');
+            if (params) {
+                let paramsRouteBack = JSON.parse(params);
+                if (paramsRouteBack.name != this.defaultCharName) {
+                    this.searchTerm = paramsRouteBack.name;
+                }
+                this.getMarvelComics(paramsRouteBack.pageNumber);
+                return;
+            }
+            this.getMarvelComics();
+        }
     }
 }
 </script>

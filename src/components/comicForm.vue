@@ -1,16 +1,37 @@
 <template>
     <div>
-        <article class="comic-character">
-            <figure>
-                <img :src="comicCharacter | imageFullPath">
-            </figure>
-            <span class="char-name">
-                {{ comicCharacter.name }}
+        <article class="comic-book">
+            <span class="comic-title">
+                {{ comics.title }}
             </span>
-            <p>
-                {{ comicCharacter.description ? comicCharacter.description : 'No description'}}
-            </p>
-            <div v-if="comicCharacter.comics.items.length" class="comic-list">
+            <figure>
+                <img :src="comics.thumbnail | imageFullPath">
+            </figure>
+            <div class="comic-buttons">
+                <ul>
+                    <li>
+                        <button
+                            type="button"
+                            class="btn btn-danger btn-block"
+                            @click="addToMyList(comics)"
+                        >
+                            ADD TO FAVOURITES
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            type="button"
+                            class="btn btn-danger btn-block"
+                        >
+                            VIEW MORE
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <!-- <p>
+                {{ comics.description ? comics.description : 'No description'}}
+            </p> -->
+            <!-- <div v-if="comicCharacter.comics.items.length" class="comic-list">
                 <div>
                     <span>
                         <strong>
@@ -30,37 +51,41 @@
                 >
                     View Comics
                 </button> 
-            </div>
+            </div> -->
         </article>
     </div>
 </template>
 <script>
+import helper from '../js/helper';
+
 export default {
+    mixins: [helper],
+    data() {
+        return {
+            myFavourites: []
+        }
+    },
     props: {
-        comicCharacter: {
+        comics: {
             type: Object,
             required: true
         }
     },
+    mounted() {
+    },
     methods: {
-        getComics(id) {
-            console.log(id);
+        addToMyList(comic) {
+            let singleComic = {};
+            singleComic[comic.id] = comic;
+            // this.myFavourites = Object.assign({}, this.myFavourites, singleComic);
+            this.myFavourites.push(singleComic);
+            console.log(this.myFavourites);
+        },
+        sendevent() {
+            this.$router.push({name: 'characters', params: { name: 'all', pageNumber: 20}});
         }
     }
 }
 </script>
 <style>
-    /*article.comic-character {
-        width: 85%;
-        border-width: 2px;
-        border-style: solid;
-        border-color: rgba(0, 0, 0, 0.9);
-        border-radius: 0px 0px 15px 15px;
-        vertical-align: top;
-        margin: 50px 0px 20px 10%;
-        background-color: blue;
-        display: inline-block;
-        position: relative;
-        font-size: 1.2em;
-    }*/
 </style>

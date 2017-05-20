@@ -1,4 +1,10 @@
 import home from '../components/home.vue';
+import comics from '../components/comics.vue';
+
+var routeNames = {
+    character: 'characters',
+    comics: 'comics'
+};
 
 const routes = [
     {
@@ -7,10 +13,19 @@ const routes = [
         component: home
     },
     {
-        path: '/characters/page/:pageNumber',
-        name: 'characters-all',
+        path: '/character/:name/page/:pageNumber',
+        name: routeNames.character,
         component: home
+    },
+    {
+        path: '/character/:id/comics',
+        name: routeNames.comics,
+        component: comics
     }
-]
+];
 
-export default routes
+
+export default {
+    routes: routes,
+    routeNames: routeNames
+}
