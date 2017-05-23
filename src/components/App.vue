@@ -1,18 +1,25 @@
 <template>
-    <div>
-        <div class="row">
-            <figure class="text-center">
-                <img src="../assets/marvel_heroes.jpg">         
+    <div class="main-header">
+        <div>
+            <figure>
+                <img src="../assets/marvel_logo.jpg">         
             </figure>
         </div>
         <div class="main-background">
             <router-view
-                class="view"
                 keep-alive
-                transition
-                transition-mode="out-in"
             >                
             </router-view>    
+        </div>
+        <div>
+            <footer class="main-footer">
+                <h6>
+                    Grability
+                </h6>
+                <div>
+                    <img src="../assets/grability-logo.png">
+                </div>
+            </footer>
         </div>
     </div>
 </template>

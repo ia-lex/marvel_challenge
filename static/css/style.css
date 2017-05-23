@@ -5,10 +5,104 @@
 .main-background {
     background-color: rgba(242, 244, 247, 0.8);
 }
+.main-header {
+    background-color: black;
+}
+.main-header div figure img {
+    width: 15%;
+}
+
+/*main bottom styles*/
+
+.main-footer {
+    position: relative;
+    margin: 15px 80px;
+    height: 50px;
+}
+.main-footer h6 {
+    float: left;
+}
+.main-footer div {
+    float: right;
+}
+.main-footer div img {
+    width: 60%;
+}
+
+/*Loading screen*/
+
+div.loading-screen {
+    background-color: rgba(130, 75, 75, 0.1);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    padding-top: 24%;
+    padding-left: 42%;
+}
+
+div.loading-screen i {
+    font-size:200px;
+    color:red;
+}
+
+.bottom-separation {
+    margin-bottom: 20px;
+}
+
 .text-center {
     text-align: center;
     margin-top: 12px;
     margin-bottom: 12px;
+}
+
+div.search-bar {
+    position: absolute;
+    top: -70px;
+}
+
+/*Style for character and favourites columns*/
+
+div.field-title-char, div.field-title-fav {
+    height: 60px;
+}
+
+div.field-title-char figure {
+    float: left;
+    width: 50px;
+}
+
+div.field-title-char h4 {
+    position: relative;
+    top: 14px;
+}
+
+div.field-title-char figure img{
+    width: 100%;
+    height: auto;
+}
+
+div.field-title-fav figure {
+    float: left;
+    width: 50px;
+}
+
+div.field-title-fav h4 {
+    position: relative;
+    top: 14px;
+    right: -7px;
+}
+
+div.field-title-fav figure img{
+    width: 100%;
+    height: auto;
+}
+
+/*Style for the my favourite column*/
+
+div.favourite-books-field div.books-scroll {
+    height: 1500px;
+    overflow-y: scroll;
 }
 
 /*Style for characterForm component*/
@@ -16,7 +110,6 @@
 article.comic-character {
     background-color: white;
     border-radius: 0px 0px 15px 15px;
-    display: inline-block;
     height: 380px;
     margin: 50px 0px 20px 10%;
     position: relative;
@@ -34,7 +127,6 @@ article.comic-character figure {
 }
 
 article.comic-character figure img {
-    border-radius: 50%;
     width: 100%;
     height: 100%;
 }
@@ -68,8 +160,7 @@ article.comic-character div.comic-list div ul{
 
 article.comic-book {
     background-color: #c6cbd3;
-    border-radius: 0px 15px 15px 0px;
-    display: inline-block;
+    border-radius: 15px 15px 15px 15px;
     height: 380px;
     margin: 50px 0px 20px 10%;
     position: relative;
@@ -94,7 +185,6 @@ article.comic-book figure {
 article.comic-book figure img {
     width: 100%;
     height: auto;
-    position: 
 }
 
 article.comic-book div.comic-buttons {
@@ -113,16 +203,66 @@ article.comic-book div.comic-buttons ul li{
     margin: 5px;
 }
 
-@media screen and (min-width: 480px) {
+/*Style for my favourite book*/
 
+article.favourite-book {
+    background-color: #c6cbd3;
+    border-radius: 15px 15px 15px 15px;
+    height: 380px;
+    margin: 50px 0px 20px 10%;
+    position: relative;
+    vertical-align: top;
+    width: 85%;
 }
 
-@media screen and (max-width: 767px) {
-    
+article.favourite-book span.favourite-book-title {
+    position: absolute;
+    font-weight: bolder;
+    top: -30px;
+    right: -2px;
 }
 
-@media screen and (max-width: 950px) {
-    
+article.favourite-book figure {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+article.favourite-book figure img {
+    width: 100%;
+    height: auto;
+}
+
+article.favourite-book button.comic-delete {
+    position: absolute;
+    top: -9px;
+    right: -9px;
+}
+article.favourite-book button.comic-watch {
+    position: absolute;
+    right: 42%;
+    bottom: -10px;
+}
+
+/*Style for modal book detail*/
+article.comic-book-detail {
+    position: relative;
+    /*height: 500px;*/
+}
+
+article.comic-book-detail figure {
+    width: 50%;
+    height: auto;
+    float: left;
+    margin-right: 10px;
+}
+
+article.comic-book-detail div.comic-book-description {
+    text-align: justify;
+}
+
+article.comic-book-detail figure img{
+    width: 100%;
 }
 
 @media screen and (min-width: 480px) {

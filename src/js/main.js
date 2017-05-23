@@ -4,6 +4,7 @@ import vueRouter from 'vue-router';
 import filters from './filters.js';
 import routes from './routes.js';
 import App from '../components/app.vue';
+import helper from './helper.js';
 
 Vue.use(vueResource);
 Vue.use(vueRouter);
@@ -17,18 +18,18 @@ const router = new vueRouter({
 
 router.beforeEach((to, from, next) => {
     
- if (from.name == routes.routeNames.comics) {
-     let backRouteParams = {
+    if (from.name == routes.routeNames.comics) {
+        let backRouteParams = {
         pageNumber: to.params.pageNumber,
         name: to.params.name
-     };
-     localStorage.setItem('backRouteParams', JSON.stringify(backRouteParams));
- }
- next();
+        };
+        helper.methods.setStorage('backRouteParams', backRouteParams);
+    }
+    next();
 });
 
 new Vue({
-  el: '#app',
-  router,
-  render: h => h(App)
+    el: '#app',
+    router,
+    render: h => h(App)
 })

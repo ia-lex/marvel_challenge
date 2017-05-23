@@ -1,28 +1,53 @@
 <template>
-    <ul class="pagination">
-        <li v-if="pagination.current_page > 1">
-            <a href="#" aria-label="Previous" @click.prevent="changeCurrentPage(pagination.current_page - 1)">
-                <span aria-hidden="true"> < </span>
-            </a>
-        </li>
-        <li v-for="page in pagesNumber" :class="{'active': page == pagination.current_page}">
-            <a href="#" @click.prevent="changeCurrentPage(page)">
-                {{ page }}
-            </a>
-        </li>
-        <li v-if="pagination.current_page < pagination.last_page">
-            <a href="#" aria-label="Next" @click.prevent="changeCurrentPage(pagination.current_page + 1)">
-                <span aria-hidden="true"> > </span>
-            </a>
-        </li>
-    </ul>
+    <div>
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button 
+                    type="button" 
+                    class="btn btn-secondary" 
+                    @click="changeCurrentPage(false)"
+                >
+                    <
+                </button>
+            </span>
+            <input 
+                type="number" 
+                class="form-control" 
+                placeholder="Page number ..." 
+                v-model="actualPage"
+            >
+            <span class="input-group-btn">
+                <button 
+                    type="button" 
+                    class="btn btn-secondary" 
+                    @click="changeCurrentPage(true)"
+                >
+                    >       
+                </button>
+            </span>
+            <span class="input-group-addon">out of {{ pagesNumber }}</span>
+        </div>
+    </div>
 </template>
 <script>
+var _ = require('lodash');
+
 export default {
     props: {
         pagination: {
             type: Object,
             required: true          
+        }
+    },
+    watch: {
+        actualPage: function() {
+            this.checkValue();
+        }
+    },
+    data() {
+        return {
+            actualPage: 1,
+            totalPages: 0
         }
     },
     computed: {
@@ -34,23 +59,28 @@ export default {
                 if (itemsRemain > 0) {
                     pages++;
                 }
-                this.pagination.last_page = pages;
-                var pagesArray = [];
-                for (var i = 1; i <= pages; i++) {
-                    pagesArray.push(i);
-                }
-                return pagesArray;
-
+                this.totalPages = pages;
+                return this.totalPages;
+            } else {
+                return this.totalPages;
             }
-            this.pagination.last_page = 0;
-            this.pagination.current_page = 1;
         }
     },
     methods: {
-        changeCurrentPage(page) {
-            this.pagination.current_page = page;
-            this.$emit('updatePage', page);
-        }
+        changeCurrentPage(direction) {
+            if (direction) {
+                this.actualPage++;
+            } else {
+                this.actualPage--;
+            }
+        },
+        checkValue: _.debounce(function() {
+            if (this.actualPage > 0 && this.actualPage <= this.totalPages) {
+                console.log(this.actualPage);
+                this.pagination.current_page = this.actualPage;
+                this.$emit('updatePage', this.actualPage);
+            }
+        }, 800)
     }
 }
 </script>

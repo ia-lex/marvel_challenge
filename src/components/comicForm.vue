@@ -22,47 +22,26 @@
                         <button
                             type="button"
                             class="btn btn-danger btn-block"
+                            @click="sendModalData(comics)"
                         >
                             VIEW MORE
                         </button>
                     </li>
                 </ul>
             </div>
-            <!-- <p>
-                {{ comics.description ? comics.description : 'No description'}}
-            </p> -->
-            <!-- <div v-if="comicCharacter.comics.items.length" class="comic-list">
-                <div>
-                    <span>
-                        <strong>
-                            Related Comics
-                        </strong>
-                    </span>
-                    <ul>
-                        <li v-for="item in comicCharacter.comics.items">
-                            {{ item.name }}
-                        </li>
-                    </ul>
-                </div>
-                <button
-                    type="button"
-                    class="btn btn-danger btn-xs pull-right"
-                    @click="getComics(comicCharacter.id)"
-                >
-                    View Comics
-                </button> 
-            </div> -->
         </article>
     </div>
 </template>
 <script>
 import helper from '../js/helper';
 
+var myFavourites = {};
+
 export default {
     mixins: [helper],
     data() {
         return {
-            myFavourites: []
+            
         }
     },
     props: {
@@ -77,12 +56,11 @@ export default {
         addToMyList(comic) {
             let singleComic = {};
             singleComic[comic.id] = comic;
-            // this.myFavourites = Object.assign({}, this.myFavourites, singleComic);
-            this.myFavourites.push(singleComic);
-            console.log(this.myFavourites);
+            Object.assign(myFavourites, singleComic);
+            this.setStorage('myFavourites', myFavourites);
         },
-        sendevent() {
-            this.$router.push({name: 'characters', params: { name: 'all', pageNumber: 20}});
+        sendModalData(data) {
+            this.$emit('comicDetail', data);
         }
     }
 }

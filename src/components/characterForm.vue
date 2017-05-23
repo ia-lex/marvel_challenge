@@ -2,7 +2,7 @@
     <div>
         <article class="comic-character">
             <figure>
-                <img :src="comicCharacter.thumbnail | imageFullPath">
+                <img :src="comicCharacter.thumbnail | imageFullPath" class="img-circle">
             </figure>
             <span class="char-name">
                 {{ comicCharacter.name }}
