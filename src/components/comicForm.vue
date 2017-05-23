@@ -12,10 +12,10 @@
                     <li>
                         <button
                             type="button"
-                            class="btn btn-danger btn-block"
                             @click="addToMyList(comics)"
+                            v-bind:class="[comics.isAdded ? 'button-favourite-added' : '', 'button-favourite']"
                         >
-                            ADD TO FAVOURITES
+                            
                         </button>
                     </li>
                     <li>
@@ -41,7 +41,6 @@ export default {
     mixins: [helper],
     data() {
         return {
-            
         }
     },
     props: {
@@ -54,6 +53,7 @@ export default {
     },
     methods: {
         addToMyList(comic) {
+            comic.isAdded = true;
             let singleComic = {};
             singleComic[comic.id] = comic;
             Object.assign(myFavourites, singleComic);

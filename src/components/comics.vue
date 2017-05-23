@@ -76,7 +76,7 @@ export default {
             this.$http.get(comicUrl, query)
             .then(({data}) => {
                 this.pagination.total = data.data.total;
-                this.comics = data.data.results;
+                this.checkAddedComic(data.data.results);
                 this.loading = false;
             }, (error) => {
                 console.log(error);
@@ -95,6 +95,7 @@ export default {
                 let index = shuffledArray[i];
                 let comicId = this.comics[index].id;
                 if (Object.keys(books).toString().indexOf(comicId) == -1) {
+                    this.comics[index].isAdded = true;
                     let singleComic = {};
                     singleComic[comicId] = this.comics[index];
                     Object.assign(books, singleComic);
@@ -105,6 +106,19 @@ export default {
                 }
             }
             this.setStorage('myFavourites', books);
+        },
+        checkAddedComic(data) {
+            let books = this.getFromStorage('myFavourites');
+            for(var i in data) {
+                let id = data[i].id;
+                let isChecked = books[id];
+                if (isChecked) {
+                    data[i].isAdded = true;
+                } else {
+                    data[i].isAdded = false;
+                }
+            }
+            this.comics = data;
         }
     }
 }

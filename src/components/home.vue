@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="input-group search-bar">
-                    <input type="text" class="form-control" v-model="searchTerm" placeholder="search character ...">
+                    <input type="text" class="form-control" v-model="searchTerm" placeholder="search character ...left blank and search to get all characters">
                     <span class="input-group-btn">
                         <button type="button" class="form-control" @click="getMarvelComics()">Search</button>
                     </span>
