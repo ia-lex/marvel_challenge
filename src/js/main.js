@@ -6,6 +6,11 @@ import routes from './routes.js';
 import App from '../components/app.vue';
 import helper from './helper.js';
 
+// This is to create an static *.scss file that will be called on webpack sass loader
+// but at this time it doesnt work, it keeps saying "you need an apropiate loader to handle this file"
+// import css from '../styles/style.scss';
+// require('../styles/style.scss');
+
 Vue.use(vueResource);
 Vue.use(vueRouter);
 

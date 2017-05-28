@@ -1,4 +1,4 @@
-// var webpackConfig = require('./webpack.config.js');
+var webpackConfig = require('./webpack.config.js');
 // delete webpackConfig.entry
 
 module.exports = function (config) {
@@ -16,27 +16,28 @@ module.exports = function (config) {
 			noInfo: true
 		},
 		singleRun: true,
-		webpack: {
-			module: {
-				loaders: [
-					{
-						test: /\.js$/,
-						loader: 'babel-loader',
-						exclude: /node_modules/
-					},
-					{
-						test: /\.vue$/,
-						loader: 'vue-loader'
-					},
-					{
-				        test: /\.(png|jpg|gif|svg)$/,
-				        loader: 'file-loader',
-				        options: {
-				          name: '[name].[ext]?[hash]'
-				        }
-				    },
-				]
-			}
-		}
+		webpack: webpackConfig, // This options is better because keeps this config up to date
+		// webpack: {			// This options is bad because require to copy paste the module loaders that exists in webpack.config.js
+		// 	module: {
+		// 		loaders: [
+		// 			{
+		// 				test: /\.js$/,
+		// 				loader: 'babel-loader',
+		// 				exclude: /node_modules/
+		// 			},
+		// 			{
+		// 				test: /\.vue$/,
+		// 				loader: 'vue-loader'
+		// 			},
+		// 			{
+		// 		        test: /\.(png|jpg|gif|svg)$/,
+		// 		        loader: 'file-loader',
+		// 		        options: {
+		// 		          name: '[name].[ext]?[hash]'
+		// 		        }
+		// 		    },
+		// 		]
+		// 	}
+		// }
 	})
 }
